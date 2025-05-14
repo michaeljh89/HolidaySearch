@@ -1,4 +1,7 @@
-﻿namespace HolidaySearch
+﻿using System;
+using HolidaySearch.Models;
+
+namespace HolidaySearch
 {
     internal class SearchHolidays
     {
@@ -7,7 +10,7 @@
 
         }
 
-        public void SearchBestValueHolidays(holidayPackage searchCriteria)
+        public void SearchBestValueHolidays(HolidayPackage searchCriteria)
         {
             if (searchCriteria == null)
             {

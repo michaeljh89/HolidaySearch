@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using HolidaySearch.Models;
 
 
 namespace HolidaySearch.Tests
@@ -15,16 +16,18 @@ namespace HolidaySearch.Tests
             _searchHolidays = new SearchHolidays();
         }
 
-        [Test]        
+        [Test]
         public void Given_SearchHolidays_Is_Called_With_No_Data_An_Error_Should_Return()
         {
             // Arrange
-            holidayPackage searchCriteria = null;
-            
+            HolidayPackage searchCriteria = null;
+
             // Act
             var _searchResults = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
             // Assert
             _searchResults.Should().Throw<ArgumentNullException>();
         }
-    }
+
+        
+    } 
 }
