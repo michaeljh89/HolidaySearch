@@ -18,7 +18,11 @@ namespace HolidaySearch.Repository
         {
             RawData = ReadHotelsFromJson(rawDataPath);
         }
-      
+
+        public Task<IList<Hotel>> SearchHotelsAsync(DateTime departureDate, int duration, string travellingTo)
+        {
+            throw new NotImplementedException();
+        }
 
         private static List<Hotel> ReadHotelsFromJson(string filePath)
         {
@@ -31,5 +35,7 @@ namespace HolidaySearch.Repository
             });
             return hotels ?? new List<Hotel>();
         }
+
+        
     }
 }
