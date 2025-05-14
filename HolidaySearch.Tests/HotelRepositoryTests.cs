@@ -36,5 +36,17 @@ namespace HolidayFinder.Tests.Repository
             hotelData.Should().NotBeNullOrEmpty();
             hotelData.Should().HaveCount(13);
         }
+
+        [Test]
+        public void Given_A_File_With_ValidData_Then_RawData_Should_Be_Populated_With_Correct_Data()
+        {
+            // Arrange
+            var hotelRepo = new HotelRepository(_MockDataFilePath);
+            // Act
+            var hotelData = hotelRepo.RawData;
+            // Assert
+            hotelData.Should().NotBeNullOrEmpty();
+            hotelData[0].price_per_night.Should().Be(100);
+        }
     }
 }
