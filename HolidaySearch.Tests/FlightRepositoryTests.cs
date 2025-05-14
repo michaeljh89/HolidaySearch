@@ -69,5 +69,26 @@ namespace HolidaySearch.Tests.Repository
             }
 
         }
+
+        [Test]
+        public void Given_Valid_SearchCriteria_When_SearchFlights_Called_Then_ItShould_Return_Expected_Results()
+        {
+            // Arrange
+            var flightRepo = new FlightRepository(_MockDataFilePath);
+            var from = "MAN";
+            var to = "PMI";
+            var departureDate = 15.June(2023);
+            // Act
+            var flightresults = flightRepo.SearchFlightsAsync(from, to, departureDate);
+
+            // Assert
+            flightresults.Result.Should().HaveCount(2);
+            foreach (var flight in flightresults.Result)
+            {
+                flight.From.Should().Be(from);
+                flight.To.Should().Be(to);
+                flight.Departure_date.Should().BeOnOrAfter(departureDate);
+            }
+        }
     }
 }
