@@ -7,10 +7,12 @@ namespace HolidaySearch.Tests
 {
     public class SearchHolidayTests
     {
+        SearchHolidays _searchHolidays;
+
         [SetUp]
         public void Setup()
         {
-            
+            _searchHolidays = new SearchHolidays();
         }
 
         [Test]        
@@ -18,7 +20,7 @@ namespace HolidaySearch.Tests
         {
             // Arrange
             holidayPackage searchCriteria = null;
-            var _searchHolidays = new SearchHolidays();
+            
             // Act
             var _searchResults = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
             // Assert
