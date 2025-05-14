@@ -25,6 +25,16 @@ namespace HolidayFinder.Tests.Repository
             hotelRepo.Should().Throw<FileNotFoundException>();
         }
 
-
+        [Test]
+        public void Given_A_File_With_ValidData_Then_RawData_Should_Be_Populated_With_13_Records()
+        {
+            // Arrange
+            var hotelRepo = new HotelRepository(_MockDataFilePath);
+            // Act
+            var hotelData = hotelRepo.RawData;
+            // Assert
+            hotelData.Should().NotBeNullOrEmpty();
+            hotelData.Should().HaveCount(13);
+        }
     }
 }
