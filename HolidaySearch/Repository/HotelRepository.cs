@@ -22,6 +22,8 @@ namespace HolidaySearch.Repository
 
         private static List<Hotel> ReadHotelsFromJson(string filePath)
         {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException($"JSON file not found at path: {filePath}");
             
             return new List<Hotel>();
         }
