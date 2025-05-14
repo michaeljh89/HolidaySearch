@@ -21,7 +21,13 @@ namespace HolidaySearch.Repository
         {
             var result = RawData;
 
-            return await Task.FromResult(new List<Flight>());
+            var filteredResults = result
+                .Where(x => x.Departure_date == departureDate && x.From == departingFrom
+                        && x.To == travellingTo)
+                  .OrderBy(o => o.Price)
+                    .ToList();
+
+            return await Task.FromResult(new List<Flight>(filteredResults));
         }
 
         private static List<Flight> ReadFlightsFromJson(string filePath)
