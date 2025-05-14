@@ -28,6 +28,17 @@ namespace HolidaySearch.Tests
             _searchResults.Should().Throw<ArgumentNullException>();
         }
 
-        
+        [Test]
+        public void Given_SearchHolidays_Is_Called_With_Valid_Data_No_Error_Should_Be_Thrown()
+        {
+            // Arrange
+            HolidayPackage searchCriteria = new HolidayPackage();
+
+            // Act
+            var _searchResults = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
+            // Assert
+            _searchResults.Should().NotThrow<ArgumentNullException>();
+        }
+
     } 
 }
