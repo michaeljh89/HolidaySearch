@@ -24,8 +24,12 @@ namespace HolidaySearch.Repository
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"JSON file not found at path: {filePath}");
-            
-            return new List<Hotel>();
+            var json = File.ReadAllText(filePath);
+            var hotels = JsonSerializer.Deserialize<List<Hotel>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+            return hotels ?? new List<Hotel>();
         }
     }
 }
