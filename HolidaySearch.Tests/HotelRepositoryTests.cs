@@ -69,6 +69,26 @@ namespace HolidaySearch.Tests.Repository
             }
         }
 
-        
+        [Test]
+        public void Given_Valid_Criteria_When_SearchHotels_Called_Then_ItShould_Return_Diltered_Data()
+        {
+            // Arrange
+            var hotelRepo = new HotelRepository(_MockDataFilePath);
+            var travellingTo = "PMI";
+            var duration = 14;
+            var departureDate = 15.June(2023);
+            // Act
+            var Hotelresults = hotelRepo.SearchHotelsAsync(departureDate, duration, travellingTo);
+
+            // Assert
+            Hotelresults.Should().NotBeNull();
+            Hotelresults.Result.Should().HaveCount(2);
+            foreach (var hotel in Hotelresults.Result)
+            {
+                hotel.arrival_date.Should().Be(departureDate);
+                hotel.nights.Should().Be(duration);
+                hotel.local_airports.Should().Contain(travellingTo);
+            }
+        }
     }
 }
