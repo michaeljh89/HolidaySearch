@@ -25,9 +25,10 @@ namespace HolidaySearch.Tests
         public void Given_SearchHolidays_Is_Called_With_No_Data_An_Error_Should_Return()
         {
             // Arrange
-            HolidayPackage searchCriteria = null;
-
+            HolidayPackage searchCriteria = null;            
             // Act
+            _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
+
             var _searchResults = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
             // Assert
             _searchResults.Should().Throw<ArgumentNullException>();
@@ -40,6 +41,7 @@ namespace HolidaySearch.Tests
             HolidayPackage searchCriteria = new HolidayPackage();
 
             // Act
+            _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
             var _searchResults = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
             // Assert
             _searchResults.Should().NotThrow<ArgumentNullException>();
@@ -61,7 +63,7 @@ namespace HolidaySearch.Tests
             var _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
 
             //Act
-            List<HolidayPackageResult> results = _searchHolidays.SearchBestValueHolidays(searchCriteria);
+            IList<HolidayPackageResult> results = _searchHolidays.SearchBestValueHolidays(searchCriteria);
 
             //Assert
             results.Should().NotBeNull();
@@ -110,6 +112,7 @@ namespace HolidaySearch.Tests
             //Assert
             results.Should().NotBeNull();
             results.Should().HaveCount(4);
+            results.Should().BeInAscendingOrder(x => x.TotalPrice);
         }
 
     } 

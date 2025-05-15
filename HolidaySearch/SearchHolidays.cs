@@ -33,11 +33,11 @@ namespace HolidaySearch
 
             var hotelResults = _hotelsRepository.SearchHotelsAsync(searchCriteria.DepartureDate, searchCriteria.Duration, searchCriteria.TravelingTo);
             var flightResults = _flightsRepository.SearchFlightsAsync(searchCriteria.DepartingFrom, searchCriteria.TravelingTo, searchCriteria.DepartureDate);
-
-            List<HolidayPackageResult> holidayPackageResults = new List<HolidayPackageResult>();
-
+            
             var hotels = hotelResults.Result;
             var flights = flightResults.Result;
+
+            List<HolidayPackageResult> holidayPackageResults = new List<HolidayPackageResult>();
 
             foreach (var hotel in hotels)
             {
@@ -52,6 +52,8 @@ namespace HolidaySearch
                         });
                 }
             }
+
+            holidayPackageResults = (List<HolidayPackageResult>)holidayPackageResults.OrderBy(o => o.TotalPrice).ToList();
 
             return holidayPackageResults;
         }
