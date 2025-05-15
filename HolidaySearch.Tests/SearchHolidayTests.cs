@@ -43,7 +43,7 @@ namespace HolidaySearch.Tests
         }
 
         [Test]
-        public void Given_SearchHolidays_Is_Called_With_Valid_Data()
+        public void Given_SearchHolidays_Is_Called_With_Valid_Data_Then_A_Valid_HolidayPackageResult_Should_Return()
         {
 
             // Arrange
@@ -65,7 +65,7 @@ namespace HolidaySearch.Tests
         }
 
         [Test]
-        public void Given_SearchHolidays_Is_Called_With_InValid_Data()
+        public void Given_SearchHolidays_Is_Called_With_InValid_Data_Then_Error_Should_be_thrown()
         {
 
             // Arrange
@@ -84,6 +84,29 @@ namespace HolidaySearch.Tests
 
             //Assert
             results.Should().Throw<InvalidDataException>();
+        }
+
+        [Test]
+        public void Given_SearchHolidays_Is_Called_With_Valid_Data_The_Best_Value_HolidayResult_Should_Return()
+        {
+
+            // Arrange
+            HolidayPackage searchCriteria = new HolidayPackage()
+            {
+                DepartingFrom = "MAN",
+                TravelingTo = "PMI",
+                DepartureDate = new DateTime(2023, 06, 15),
+                Duration = 14
+            };
+
+            _searchHolidays = new SearchHolidays();
+
+            //Act
+            List<HolidayPackageResult> results = _searchHolidays.SearchBestValueHolidays(searchCriteria);
+
+            //Assert
+            results.Should().NotBeNull();
+            results.Should().HaveCount(4);
         }
 
     } 
