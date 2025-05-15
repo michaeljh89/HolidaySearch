@@ -11,7 +11,7 @@ namespace HolidaySearch
     {
         private readonly IHotelRepository _hotelsRepository;
         private readonly IFlightRepository _flightsRepository;
-        
+
         public SearchHolidays(IHotelRepository hotelsRepository, IFlightRepository flightsRepository)
         {
             _hotelsRepository = hotelsRepository;
@@ -26,19 +26,25 @@ namespace HolidaySearch
             }
 
             if (searchCriteria.DepartingFrom.Length != 3 || searchCriteria.TravelingTo.Length != 3
-                || searchCriteria.Duration <= 0 )
+                || searchCriteria.Duration <= 0)
             {
                 throw new InvalidDataException("Invalid search criteria");
             }
 
-            var hotelResults = _hotelsRepository.SearchHotelsAsync(searchCriteria.DepartureDate, searchCriteria.Duration, searchCriteria.TravelingTo);
-            var flightResults = _flightsRepository.SearchFlightsAsync(searchCriteria.DepartingFrom, searchCriteria.TravelingTo, searchCriteria.DepartureDate);
-            
-            var hotels = hotelResults.Result;
-            var flights = flightResults.Result;
+            IList<Hotel> hotels;
+            IList<Flight> flights;
+            GetFlightAndHotelData(searchCriteria, out hotels, out flights);
 
             List<HolidayPackageResult> holidayPackageResults = new List<HolidayPackageResult>();
+            GenerateHolidayPackageResults(hotels, flights, holidayPackageResults);
 
+            holidayPackageResults = holidayPackageResults.OrderBy(o => o.TotalPrice).ToList();
+
+            return holidayPackageResults;
+        }
+
+        private static void GenerateHolidayPackageResults(IList<Hotel> hotels, IList<Flight> flights, List<HolidayPackageResult> holidayPackageResults)
+        {
             foreach (var hotel in hotels)
             {
                 foreach (var flight in flights)
@@ -52,10 +58,15 @@ namespace HolidaySearch
                         });
                 }
             }
+        }
 
-            holidayPackageResults = (List<HolidayPackageResult>)holidayPackageResults.OrderBy(o => o.TotalPrice).ToList();
+        private void GetFlightAndHotelData(HolidayPackage searchCriteria, out IList<Hotel> hotels, out IList<Flight> flights)
+        {
+            var hotelResults = _hotelsRepository.SearchHotelsAsync(searchCriteria.DepartureDate, searchCriteria.Duration, searchCriteria.TravelingTo);
+            var flightResults = _flightsRepository.SearchFlightsAsync(searchCriteria.DepartingFrom, searchCriteria.TravelingTo, searchCriteria.DepartureDate);
 
-            return holidayPackageResults;
+            hotels = hotelResults.Result;
+            flights = flightResults.Result;
         }
     }
 }
