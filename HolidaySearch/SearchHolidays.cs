@@ -17,7 +17,7 @@ namespace HolidaySearch
             {
                 throw new ArgumentNullException(nameof(searchCriteria), "Search criteria cannot be null");
             }
-            List<HolidayPackageResult> holidayPackageResults = null;
+            List<HolidayPackageResult> holidayPackageResults = new List<HolidayPackageResult>();
             return holidayPackageResults;
         }
     }
