@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HolidaySearch.Models;
 
 namespace HolidaySearch
@@ -10,12 +11,14 @@ namespace HolidaySearch
 
         }
 
-        public void SearchBestValueHolidays(HolidayPackage searchCriteria)
+        public List<HolidayPackageResult> SearchBestValueHolidays(HolidayPackage searchCriteria)
         {
             if (searchCriteria == null)
             {
                 throw new ArgumentNullException(nameof(searchCriteria), "Search criteria cannot be null");
             }
+            List<HolidayPackageResult> holidayPackageResults = null;
+            return holidayPackageResults;
         }
     }
 }
