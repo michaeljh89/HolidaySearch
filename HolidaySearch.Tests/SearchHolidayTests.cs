@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using FluentAssertions;
 using HolidaySearch.Models;
 using HolidaySearch.Repository;
@@ -61,6 +62,28 @@ namespace HolidaySearch.Tests
 
             //Assert
             results.Should().NotBeNull();
+        }
+
+        [Test]
+        public void Given_SearchHolidays_Is_Called_With_InValid_Data()
+        {
+
+            // Arrange
+            HolidayPackage searchCriteria = new HolidayPackage()
+            {
+                DepartingFrom = "34efefef",
+                TravelingTo = "",
+                DepartureDate = new DateTime(2023, 06, 15),
+                Duration = -1
+            };
+
+            _searchHolidays = new SearchHolidays();
+
+            //Act
+            var results = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
+
+            //Assert
+            results.Should().Throw<InvalidDataException>();
         }
 
     } 
