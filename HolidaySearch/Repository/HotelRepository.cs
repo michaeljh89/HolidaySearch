@@ -19,9 +19,16 @@ namespace HolidaySearch.Repository
             RawData = ReadHotelsFromJson(rawDataPath);
         }
 
-        public Task<IList<Hotel>> SearchHotelsAsync(DateTime departureDate, int duration, string travellingTo)
+        public async Task<IList<Hotel>> SearchHotelsAsync(DateTime departureDate, int duration, string travellingTo)
         {
-            throw new NotImplementedException();
+            var result = RawData;
+
+            var filteredResults = result.Where(x => x.arrival_date == departureDate && x.nights == duration
+            && x.local_airports.Contains(travellingTo))
+                  .OrderBy(f => f.price_per_night)
+            .ToList();
+
+            return await Task.FromResult(new List<Hotel>(filteredResults));
         }
 
         private static List<Hotel> ReadHotelsFromJson(string filePath)
