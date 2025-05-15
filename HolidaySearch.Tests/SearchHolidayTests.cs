@@ -10,12 +10,15 @@ namespace HolidaySearch.Tests
 {
     public class SearchHolidayTests
     {
+        private const string HotelRawDataPath = "..//..//..//MockJsonData//HotelData.json";
+        private const string FlightRawDataPath = "..//..//..//MockJsonData//FlightData.json";
+
         SearchHolidays _searchHolidays;
 
         [SetUp]
         public void Setup()
         {
-            _searchHolidays = new SearchHolidays();
+            var _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
         }
 
         [Test]
@@ -54,8 +57,8 @@ namespace HolidaySearch.Tests
                 DepartureDate = new DateTime(2023, 06, 15),
                 Duration = 14
             };
-            
-            _searchHolidays = new SearchHolidays();
+
+            var _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
 
             //Act
             List<HolidayPackageResult> results = _searchHolidays.SearchBestValueHolidays(searchCriteria);
@@ -77,7 +80,7 @@ namespace HolidaySearch.Tests
                 Duration = -1
             };
 
-            _searchHolidays = new SearchHolidays();
+            var _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
 
             //Act
             var results = () => _searchHolidays.SearchBestValueHolidays(searchCriteria);
@@ -99,7 +102,7 @@ namespace HolidaySearch.Tests
                 Duration = 14
             };
 
-            _searchHolidays = new SearchHolidays();
+            var _searchHolidays = new SearchHolidays(new HotelRepository(HotelRawDataPath), new FlightRepository(FlightRawDataPath));
 
             //Act
             List<HolidayPackageResult> results = _searchHolidays.SearchBestValueHolidays(searchCriteria);
